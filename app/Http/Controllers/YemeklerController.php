@@ -9,7 +9,7 @@ class YemeklerController extends Controller
 {
     public function index()
     {
-    	$model = User::find(1);
-    	return view('test', compact('model'));
+    	$models = User::get();
+    	return view('test', compact('models'));
     }
 }
