@@ -15,6 +15,8 @@ class CreateYemekTarifleriTable extends Migration
     {
         Schema::create('yemek_tarifleri', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('kategori_id')->unsigned();
             $table->string('yemek_adi')->nullable()->collation('utf8_general_ci');
             $table->text('tarif')->nullable()->collation('utf8_general_ci');
             $table->text('malzemeler')->nullable()->collation('utf8_general_ci');

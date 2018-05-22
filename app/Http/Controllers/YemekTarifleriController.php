@@ -1,30 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Tarif;
-use Session;
-use Redirect;
+use Auth, App\Tarif,Redirect;
 
-class TariflerController extends Controller
-{   
-    public function __construct()
-    {
-        $this->middleware('admin');
+class YemekTarifleriController extends Controller
+{
+	public function __construct()
+	{
+		$this->middleware('auth');
     }
-    
+
     public function tarifler()
     {
-    	$tarifler = Tarif::get();
+    	$tarifler = Tarif::where('user_id',Auth::user()->id)->get();
     	
-    	return view('admin.tarifler.tarifler', compact('tarifler'));
+    	return view('tarifler.tarifler', compact('tarifler'));
     }
 
     public function tarifEkle()
     {
-    	return view('admin.tarifler.tarifEkle');
+
+    	return view('tarifler.tarifEkle');
     }
 
     public function tarifEklePost(Request $request)
@@ -39,14 +37,15 @@ class TariflerController extends Controller
         $file->move($destPath,$file->getClientOriginalName());
         $tarif = Tarif::create([
             'yemek_adi' => $input['yemek_adi'],
+            'user_id' => Auth::user()->id,
             'resim' => '/upload/resimler/'.$filename,
             'tarif' => $input['tarif'],
             'yapilis' => $input['yapilis'],
-            'malzemeler' => $input['malzemeler']
+            'malzemeler' => $input['malzemeler'],
             
             ]);
 
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
 
     }
 
@@ -54,7 +53,7 @@ class TariflerController extends Controller
     {
         $tarif = Tarif::find($id);
 
-        return view('admin.tarifler.tarifDuzenle', compact('tarif'));
+        return view('tarifDuzenle', compact('tarif'));
     }
 
     public function tarifDuzenlePost(Request $request, $id)
@@ -65,6 +64,7 @@ class TariflerController extends Controller
         $tarif->tarif = $input['tarif'];
         $tarif->yapilis = $input['yapilis'];
         $tarif->malzemeler = $input['malzemeler'];
+        $tarif->user_id = Auth::user()->id;
 
         if(file_exists($request->file('resim'))){
             $file = $request->file('resim');
@@ -78,13 +78,13 @@ class TariflerController extends Controller
         }
 
         $tarif->save();
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
     }
 
     public function tarifSil($id)
     {
         $tarif = Tarif::find($id);
         $tarif->delete();
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
     }
 }

@@ -37,3 +37,9 @@ Route::post('/admin/tarifDuzenlePost/{id}', 'Admin\TariflerController@tarifDuzen
 
 Route::get('/admin/tarifSil/{id}', 'Admin\TariflerController@tarifSil');
 
+Route::get('/tarifler', 'YemekTarifleriController@tarifler');
+Route::get('/tarifEkle', 'YemekTarifleriController@tarifEkle');
+Route::post('/tarifEklePost', 'YemekTarifleriController@tarifEklePost');
+Route::get('/tarifDuzenle/{id}', 'YemekTarifleriController@tarifDuzenle');
+Route::post('/tarifDuzenlePost/{id}', 'YemekTarifleriController@tarifDuzenlePost');
+Route::get('/tarifSil', 'YemekTarifleriController@tarifSil');

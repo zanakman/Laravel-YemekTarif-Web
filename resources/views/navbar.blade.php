@@ -13,12 +13,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hakkimda">Hakkımda</a>
+              <a class="nav-link" href="/hakkimda">Tüm Yemekler</a>
             </li>
-         
             <li class="nav-item">
-              <a class="nav-link" href="/iletisim">İletişim</a>
+              <a class="nav-link" href="/hakkimda">Kategoriler</a>
             </li>
+            
             @if(! \Auth::check())
             <li class="nav-item">
               <a class="nav-link" href="/login">Giriş Yap</a>
@@ -29,6 +29,15 @@
             </li>
             
             @else
+            <li class="nav-item">
+              <a class="nav-link" href="/tarifEkle">Yemek Tarif Ekle</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tarifler">Tariflerim</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/iletisim">İletişim</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Çıkış Yap</a>
             </li>
