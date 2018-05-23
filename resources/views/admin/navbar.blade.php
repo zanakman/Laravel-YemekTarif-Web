@@ -11,6 +11,10 @@
             <li class="nav-item">
               <a class="nav-link" href="/admin/tarifler">Tarifler</a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/categories">Kategoriler</a>
+            </li>
          
            
             

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Tarif;
+use App\Tarif, App\Category;
 use Session;
-use Redirect;
+use Redirect, Auth;
 
 class TariflerController extends Controller
 {   
@@ -18,13 +18,14 @@ class TariflerController extends Controller
     public function tarifler()
     {
     	$tarifler = Tarif::get();
-    	
+    	//$categories = Category::get();
     	return view('admin.tarifler.tarifler', compact('tarifler'));
     }
 
     public function tarifEkle()
     {
-    	return view('admin.tarifler.tarifEkle');
+        $categories = Category::get();
+    	return view('admin.tarifler.tarifEkle', compact('categories'));
     }
 
     public function tarifEklePost(Request $request)
@@ -39,11 +40,12 @@ class TariflerController extends Controller
         $file->move($destPath,$file->getClientOriginalName());
         $tarif = Tarif::create([
             'yemek_adi' => $input['yemek_adi'],
+            'user_id' => Auth::user()->id,
             'resim' => '/upload/resimler/'.$filename,
             'tarif' => $input['tarif'],
             'yapilis' => $input['yapilis'],
-            'malzemeler' => $input['malzemeler']
-            
+            'malzemeler' => $input['malzemeler'],
+            'category_id' => $input['category_id']
             ]);
 
         return Redirect::to('/admin/tarifler');
@@ -53,8 +55,8 @@ class TariflerController extends Controller
     public function tarifDuzenle($id)
     {
         $tarif = Tarif::find($id);
-
-        return view('admin.tarifler.tarifDuzenle', compact('tarif'));
+        $categories = Category::get();
+        return view('admin.tarifler.tarifDuzenle', compact('tarif','categories'));
     }
 
     public function tarifDuzenlePost(Request $request, $id)
@@ -65,7 +67,8 @@ class TariflerController extends Controller
         $tarif->tarif = $input['tarif'];
         $tarif->yapilis = $input['yapilis'];
         $tarif->malzemeler = $input['malzemeler'];
-
+        $tarif->user_id = Auth::user()->id;
+        $tarif->category_id = $input['category_id'];
         if(file_exists($request->file('resim'))){
             $file = $request->file('resim');
             $filename = $file->getClientOriginalName();

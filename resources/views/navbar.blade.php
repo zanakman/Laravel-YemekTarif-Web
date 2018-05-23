@@ -15,8 +15,14 @@
             <li class="nav-item">
               <a class="nav-link" href="/hakkimda">Tüm Yemekler</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/hakkimda">Kategoriler</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kategoriler</a>
+              <?php $categories = App\Category::get(); ?>
+              <div class="dropdown-menu">
+                @foreach($categories as $category)
+                <a class="dropdown-item" href="/kategori/{{$category->slug}}">{{$category->name}}</a>
+                
+                @endforeach
             </li>
             
             @if(! \Auth::check())

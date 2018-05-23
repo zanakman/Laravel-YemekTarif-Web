@@ -41,7 +41,7 @@
 
             <div class="card-footer">
               
-              <h1>{{$ilktarif->yemek_adi}}</h1>
+              <h1>{{$tarif->yemek_adi}}</h1>
             
                 <a href="/tarif/{{$tarif->id}}" class="btn btn-primary">Tarifi Gör</a>
             </div>

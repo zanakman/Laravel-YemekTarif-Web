@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth, App\Tarif,Redirect;
+use Auth, App\Tarif,Redirect, App\Category;
 
 class YemekTarifleriController extends Controller
 {
@@ -21,8 +21,8 @@ class YemekTarifleriController extends Controller
 
     public function tarifEkle()
     {
-
-    	return view('tarifler.tarifEkle');
+    	$categories = Category::get();
+    	return view('tarifler.tarifEkle', compact('categories'));
     }
 
     public function tarifEklePost(Request $request)
@@ -42,6 +42,7 @@ class YemekTarifleriController extends Controller
             'tarif' => $input['tarif'],
             'yapilis' => $input['yapilis'],
             'malzemeler' => $input['malzemeler'],
+            'category_id' => $input['category_id']
             
             ]);
 
@@ -52,8 +53,8 @@ class YemekTarifleriController extends Controller
     public function tarifDuzenle($id)
     {
         $tarif = Tarif::find($id);
-
-        return view('tarifDuzenle', compact('tarif'));
+        $categories = Category::get();
+        return view('tarifler.tarifDuzenle', compact('tarif', 'categories'));
     }
 
     public function tarifDuzenlePost(Request $request, $id)
@@ -65,7 +66,7 @@ class YemekTarifleriController extends Controller
         $tarif->yapilis = $input['yapilis'];
         $tarif->malzemeler = $input['malzemeler'];
         $tarif->user_id = Auth::user()->id;
-
+        $tarif->category_id = $input['category_id'];
         if(file_exists($request->file('resim'))){
             $file = $request->file('resim');
             $filename = $file->getClientOriginalName();
@@ -86,5 +87,13 @@ class YemekTarifleriController extends Controller
         $tarif = Tarif::find($id);
         $tarif->delete();
         return Redirect::to('/');
+    }
+
+    public function category($slug)
+    {
+    	$category = Category::where('slug',$slug)->first();
+
+    	$tarifs = Tarif::where('category_id', $category->id)->get(); 
+    	return view('category', compact('tarifs'));
     }
 }

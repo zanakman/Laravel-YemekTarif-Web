@@ -1,4 +1,4 @@
-@extends('admin.master')
+@extends('master')
 
 @section('content')
 
@@ -12,8 +12,18 @@
     <div class="form-group">
         <label for="resim">Resim Seçiniz</label>
         <input type="file" class="form-control-file" id="resim" name="resim">
-      </div>
+    </div>
 
+    <div class="form-group">
+      <label for="sel1">Select list:</label>
+      <select name="category_id" class="form-control" id="sel1" required>
+      @if(count($categories) > 0)
+        @foreach($categories as $category)
+            <option <?php if($category->id == $tarif->category_id) echo "selected"?> value="{{$category->id}}">{{$category->name}}</option>
+        @endforeach
+      @endif
+      </select>
+    </div>
   
     <div id="editor" class="form-group">
         <label for="tarif">Tarif</label>

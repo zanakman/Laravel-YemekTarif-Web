@@ -43,3 +43,13 @@ Route::post('/tarifEklePost', 'YemekTarifleriController@tarifEklePost');
 Route::get('/tarifDuzenle/{id}', 'YemekTarifleriController@tarifDuzenle');
 Route::post('/tarifDuzenlePost/{id}', 'YemekTarifleriController@tarifDuzenlePost');
 Route::get('/tarifSil', 'YemekTarifleriController@tarifSil');
+
+Route::get('/kategori/{slug}', 'YemekTarifleriController@category');
+
+Route::get('/admin/categories', 'Admin\CategoryController@categories');
+Route::get('/admin/category/create', 'Admin\CategoryController@create');
+Route::post('/admin/category/store', 'Admin\CategoryController@store');
+Route::get('/admin/category/edit/{id}', 'Admin\CategoryController@edit');
+Route::post('/admin/category/update/{id}', 'Admin\CategoryController@update');
+Route::get('/admin/category/delete/{id}', 'Admin\CategoryController@delete');
+
