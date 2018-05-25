@@ -13,12 +13,18 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hakkimda">Hakkımda</a>
+              <a class="nav-link" href="/hakkimda">Tüm Yemekler</a>
             </li>
-         
-            <li class="nav-item">
-              <a class="nav-link" href="/iletisim">İletişim</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Kategoriler</a>
+              <?php $categories = App\Category::get(); ?>
+              <div class="dropdown-menu">
+                @foreach($categories as $category)
+                <a class="dropdown-item" href="/kategori/{{$category->slug}}">{{$category->name}}</a>
+                
+                @endforeach
             </li>
+            
             @if(! \Auth::check())
             <li class="nav-item">
               <a class="nav-link" href="/login">Giriş Yap</a>
@@ -29,6 +35,15 @@
             </li>
             
             @else
+            <li class="nav-item">
+              <a class="nav-link" href="/tarifEkle">Yemek Tarif Ekle</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tarifler">Tariflerim</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/iletisim">İletişim</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Çıkış Yap</a>
             </li>

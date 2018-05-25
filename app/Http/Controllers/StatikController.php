@@ -11,7 +11,7 @@ class StatikController extends Controller
 	public function index()
 	{
         $ilktarif = Tarif::first();
-        $tarifler = Tarif::skip(1)->take(3)->get();
+        $tarifler = Tarif::skip(1)->take(6)->get();
 		return view('index', compact('tarifler', 'ilktarif'));
 	}
 

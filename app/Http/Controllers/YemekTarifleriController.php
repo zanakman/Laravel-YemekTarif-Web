@@ -1,31 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Tarif, App\Category;
-use Session;
-use Redirect, Auth;
+use Auth, App\Tarif,Redirect, App\Category;
 
-class TariflerController extends Controller
-{   
-    public function __construct()
-    {
-        $this->middleware('admin');
+class YemekTarifleriController extends Controller
+{
+	public function __construct()
+	{
+		$this->middleware('auth');
     }
-    
+
     public function tarifler()
     {
-    	$tarifler = Tarif::get();
-    	//$categories = Category::get();
-    	return view('admin.tarifler.tarifler', compact('tarifler'));
+    	$tarifler = Tarif::where('user_id',Auth::user()->id)->get();
+    	
+    	return view('tarifler.tarifler', compact('tarifler'));
     }
 
     public function tarifEkle()
     {
-        $categories = Category::get();
-    	return view('admin.tarifler.tarifEkle', compact('categories'));
+    	$categories = Category::get();
+    	return view('tarifler.tarifEkle', compact('categories'));
     }
 
     public function tarifEklePost(Request $request)
@@ -46,9 +43,10 @@ class TariflerController extends Controller
             'yapilis' => $input['yapilis'],
             'malzemeler' => $input['malzemeler'],
             'category_id' => $input['category_id']
+            
             ]);
 
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
 
     }
 
@@ -56,7 +54,7 @@ class TariflerController extends Controller
     {
         $tarif = Tarif::find($id);
         $categories = Category::get();
-        return view('admin.tarifler.tarifDuzenle', compact('tarif','categories'));
+        return view('tarifler.tarifDuzenle', compact('tarif', 'categories'));
     }
 
     public function tarifDuzenlePost(Request $request, $id)
@@ -81,13 +79,21 @@ class TariflerController extends Controller
         }
 
         $tarif->save();
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
     }
 
     public function tarifSil($id)
     {
         $tarif = Tarif::find($id);
         $tarif->delete();
-        return Redirect::to('/admin/tarifler');
+        return Redirect::to('/');
+    }
+
+    public function category($slug)
+    {
+    	$category = Category::where('slug',$slug)->first();
+
+    	$tarifs = Tarif::where('category_id', $category->id)->get(); 
+    	return view('category', compact('tarifs'));
     }
 }

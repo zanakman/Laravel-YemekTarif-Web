@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarif extends Model
 {
-    protected $table = 'yemek_tarifleri';
+    protected $table = 'tarifs';
 
     protected $fillable = [
-        'yemek_adi', 'tarif', 'yapilis','malzemeler','resim'
+        'yemek_adi', 'user_id', 'category_id', 'tarif', 'yapilis','malzemeler','resim'
     ];
 }

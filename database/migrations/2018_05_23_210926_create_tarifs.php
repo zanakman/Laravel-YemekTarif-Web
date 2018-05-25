@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateYemekTarifleriTable extends Migration
+class CreateTarifs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateYemekTarifleriTable extends Migration
      */
     public function up()
     {
-        Schema::create('yemek_tarifleri', function (Blueprint $table) {
+        Schema::create('tarifs', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->string('yemek_adi')->nullable()->collation('utf8_general_ci');
             $table->text('tarif')->nullable()->collation('utf8_general_ci');
             $table->text('malzemeler')->nullable()->collation('utf8_general_ci');
@@ -31,6 +35,6 @@ class CreateYemekTarifleriTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('yemek_tarifleri');
+        Schema::dropIfExists('tarifs');
     }
 }
